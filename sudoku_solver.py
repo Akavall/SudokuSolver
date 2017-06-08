@@ -1,14 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon May 21 20:48:58 2012
-
-@author: Lena
-"""
 import numpy as np
 from itertools import product
 import time
-
-num_set = set(range(10))
 
 class Stack(object):
     def __init__(self):
@@ -22,11 +14,11 @@ class Stack(object):
 
 class SubPart(object):
 
-    def __init__(self, square, rows, cols, num_set):
+    def __init__(self, square, rows, cols):
         self.square = square
         self.rows = rows
         self.cols = cols
-        self.num_set = num_set
+        self.num_set = set(range(10))
         self.original_zeros_raw = np.where(self.square == 0)
         self.original_zeros = zip(*np.where(self.square == 0))
         self.missing_nums = self.get_missing_nums()
@@ -45,7 +37,6 @@ class SubPart(object):
     def fill(self, combo):
         self.square[self.original_zeros_raw] = combo
 
-    # It seems that clear is often called when it should not be
     def clear(self):                     
         self.square[self.original_zeros_raw] = 0
 
@@ -70,22 +61,15 @@ def check_solution(board):
 
     return True
  
-def solve_sudoku(xx):
+def solve_sudoku(board):
 
-    # We should be able to optimize by searching 
-    # sector with most known values first 
     class_list = []
 
     for i in xrange(0,9,3):
         for j in xrange(0,9,3):
-            class_list.append(SubPart(xx[i:i+3, j:j+3], xx[i:i+3, :], xx[:,j:j+3], num_set))
+            class_list.append(SubPart(board[i:i+3, j:j+3], board[i:i+3, :], board[:,j:j+3]))
 
-    # sorting does not see to help in either direction!
-    # class_list = sorted(class_list, key=lambda x: len(x.missing_nums), reverse=False)
     class_list = zip(range(9), class_list)
-
-    # What if we sort the list such that sub_parts with more known values
-    # come first 
 
     ind_map = {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8}
 
@@ -98,7 +82,6 @@ def solve_sudoku(xx):
 
         if combo is not None:
 
-            # I might be clearing too much here...
             for i in xrange(combo[0], 8):
                 class_list[i][1].clear()
 
@@ -120,6 +103,6 @@ def solve_sudoku(xx):
         if combo and combo[0] == 8:
             for combo_8 in class_list[8][1].get_combos():
                 class_list[8][1].fill(combo_8)
-                if check_solution(xx):
-                    return xx
+                if check_solution(board):
+                    return board
                 class_list[8][1].clear() 
