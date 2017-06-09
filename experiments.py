@@ -66,7 +66,8 @@ if __name__ == "__main__":
 
 
 
-    solution = solve_sudoku(real_sudoku)
+    print project_euler_96_p1
+    solution = solve_sudoku(project_euler_96_p1)
     print "Solution:"
     print solution
     print(check_solution(np.array(solution)))
