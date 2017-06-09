@@ -32,8 +32,6 @@ class SubPart(object):
         for r, c in self.original_zeros:
             my_list.append(self.missing_nums.difference(set(self.cols[:,c]).union(set(self.rows[r]))))
         b = product(*my_list) 
-        import ipdb
-        ipdb.set_trace()
         return [ele for ele in b if len(ele) == len(set(ele))]
 
     def fill(self, combo):
