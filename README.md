@@ -73,9 +73,10 @@ That's it!
 After we filled the values in the first subpart, the next subpart will see 
 these values in their rows/columns, and restrict their values accordingly.
 
-However getting this part might be annoying technically. The most straight-
-forward approach would be to write a nested loop with 9 levels; it will work.
-In my approach above I a while loop and a Stack to accomplish the same task,
+However, getting this part might be annoying technically. The most straight-
+forward approach would be to write a nested loop with 9 levels; it will work,
+ but might not be very pretty.
+In my approach, I use a while loop and a Stack to accomplish the same task,
 the code is more elegant, but not as easy to read. 
 
 Performance:
@@ -83,7 +84,7 @@ Performance:
 The above algorithms solves easy sudoku puzzles in less than a second.
 The problem that I pulled from wikipedia article on sudoku algorithms, does
 not give my algorithm any problems; it solves it in 7 seconds. However, a
-"challenging problem" from Skiena Algorithms Manual, poses difficulty it 
+"challenging problem" from Skiena Algorithms Manual poses difficulty: it 
 takes 3.5 minutes to solve. You can find those puzzles in `experiments.py`
 
 
