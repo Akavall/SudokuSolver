@@ -63,13 +63,13 @@ def check_solution(board):
  
 def solve_sudoku(board):
 
-    class_list = []
+    sup_part_list = []
 
     for i in xrange(0,9,3):
         for j in xrange(0,9,3):
-            class_list.append(SubPart(board[i:i+3, j:j+3], board[i:i+3, :], board[:,j:j+3]))
+            sup_part_list.append(SubPart(board[i:i+3, j:j+3], board[i:i+3, :], board[:,j:j+3]))
 
-    class_list = zip(range(9), class_list)
+    sup_part_list = zip(range(9), sup_part_list)
 
     ind_map = {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8}
 
@@ -83,26 +83,26 @@ def solve_sudoku(board):
         if combo is not None:
 
             for i in xrange(combo[0], 8):
-                class_list[i][1].clear()
+                sup_part_list[i][1].clear()
 
             # 8 has a different way of filling
             # we don't need to fill here
             if combo[0] != 8:
-                class_list[combo[0]][1].fill(combo[1])
+                sup_part_list[combo[0]][1].fill(combo[1])
     
         if combo is None:
-            for combo_0 in class_list[0][1].get_combos():
+            for combo_0 in sup_part_list[0][1].get_combos():
                 stack.push((0, combo_0))
 
         elif combo[0] != 8: # Don't need to add 8 
-            sub_part = class_list[ind_map[combo[0]]][1]
+            sub_part = sup_part_list[ind_map[combo[0]]][1]
             for combo_n in sub_part.get_combos():
                 stack.push((ind_map[combo[0]], combo_n))
 
         # if don't push 8 to the stack we don't get to this part
         if combo and combo[0] == 8:
-            for combo_8 in class_list[8][1].get_combos():
-                class_list[8][1].fill(combo_8)
+            for combo_8 in sup_part_list[8][1].get_combos():
+                sup_part_list[8][1].fill(combo_8)
                 if check_solution(board):
                     return board
-                class_list[8][1].clear() 
+                sup_part_list[8][1].clear() 
